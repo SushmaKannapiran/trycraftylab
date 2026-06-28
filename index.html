@@ -562,8 +562,7 @@
   });
 
   var staticMode = location.hash === '#static';
-  var fine = window.matchMedia && window.matchMedia('(pointer:fine)').matches;
-  if(fine && !staticMode) document.body.classList.add('fancy');
+  /* custom cursor disabled — using the normal pointer so everything stays clickable */
 
   var cur = document.getElementById('cursor');
   if(document.body.classList.contains('fancy')){
