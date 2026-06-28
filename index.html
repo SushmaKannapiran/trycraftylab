@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CraftyLab · Art classes for kids (ages 5 to 12)</title>
+<meta name="description" content="CraftyLab is a hands-on art studio for kids aged 5 to 12. Crochet, painting, alcohol markers, clay, Cricut crafts and more. All materials provided. Book a free trial!">
+<meta property="og:title" content="CraftyLab · Art classes for kids">
+<meta property="og:description" content="A hands-on art studio for kids 5 to 12. Crochet, painting, markers, clay, Cricut and more, all materials provided. Book a free trial!">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#2657E8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@500;600;700&family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#2657E8; --red:#F5402C; --green:#23A848; --yellow:#FFC93C; --pink:#FF5BA0;
+    --purple:#7B5BE0; --cream:#FBF4E6; --ink:#16110f; --teal:#15B5A0;
+    --hard: 6px 6px 0 rgba(0,0,0,.16);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:'Nunito',sans-serif; color:var(--ink); background:var(--cream); -webkit-font-smoothing:antialiased; overflow-x:hidden; line-height:1.55}
+  body.fancy{cursor:none}
+  a{color:inherit}
+  .bubble{font-family:'Baloo 2',cursive; font-weight:800; line-height:.95}
+  .fred{font-family:'Fredoka',sans-serif}
+  .hand{font-family:'Caveat',cursive}
+
+  /* cursor */
+  #cursor{position:fixed; left:0; top:0; width:42px; height:42px; z-index:9999; pointer-events:none; transform:translate(-100px,-100px); transition:scale .12s ease}
+  #cursor.big{scale:1.4}
+  body:not(.fancy) #cursor{display:none}
+
+  /* bands */
+  .band{position:relative; padding:52px 20px; overflow:hidden}
+  .inner{position:relative; z-index:3; max-width:1060px; margin:0 auto}
+  .b-blue{background:var(--blue); color:var(--cream)} .b-red{background:var(--red); color:var(--cream)}
+  .b-green{background:var(--green); color:var(--cream)} .b-yellow{background:var(--yellow); color:var(--ink)}
+  .b-pink{background:var(--pink); color:#400f24} .b-cream{background:var(--cream); color:var(--ink)}
+  .b-purple{background:var(--purple); color:var(--cream)}
+  .b-cta{background:linear-gradient(120deg,var(--red),var(--pink)); color:#fff}
+  .grid-bg::before{content:""; position:absolute; inset:0; z-index:1; opacity:.5;
+    background-image:linear-gradient(currentColor 1px,transparent 1px),linear-gradient(90deg,currentColor 1px,transparent 1px);
+    background-size:28px 28px; color:rgba(0,0,0,.07)}
+  .half::after{content:""; position:absolute; inset:0; z-index:1; pointer-events:none; opacity:.12;
+    background-image:radial-gradient(currentColor 2px,transparent 2px); background-size:15px 15px}
+
+  /* doodles */
+  .doodle{position:absolute; z-index:2; pointer-events:none}
+
+  /* titles */
+  .ttl{font-family:'Baloo 2',cursive; font-weight:800; font-size:clamp(30px,6vw,56px); line-height:1; margin:0;
+    text-shadow:4px 4px 0 rgba(0,0,0,.22)}
+  .b-yellow .ttl,.b-cream .ttl{text-shadow:4px 4px 0 rgba(0,0,0,.14)}
+  .sub{font-family:'Caveat',cursive; font-weight:700; font-size:clamp(22px,3.5vw,30px); margin:8px 0 0; opacity:.95}
+  .center{text-align:center}
+
+  /* sticker */
+  .sticker{background:#fff; padding:9px; border-radius:16px; box-shadow:var(--hard); display:inline-block}
+  .sticker img{display:block; width:100%; border-radius:9px}
+  .sticker .tag{font-family:'Caveat',cursive; font-weight:700; font-size:21px; color:var(--ink); text-align:center; padding:6px 4px 4px; line-height:1.1}
+  .r1{transform:rotate(2deg)} .r2{transform:rotate(-2.4deg)} .r3{transform:rotate(1.4deg)} .r4{transform:rotate(-1.4deg)} .r5{transform:rotate(3deg)}
+  body.fancy .sticker{transition:transform .2s ease}
+  body.fancy .sticker:hover{transform:rotate(0) scale(1.04); z-index:8}
+
+  .magnet{position:absolute; z-index:9; width:104px; height:104px; right:-22px; top:-26px; transform:rotate(13deg)}
+  .magnet svg{width:100%;height:100%; filter:drop-shadow(3px 3px 0 rgba(0,0,0,.2))}
+  .magnet span{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Baloo 2',cursive; font-weight:800; font-size:13px; color:#fff; text-align:center; line-height:1; padding:0 18px}
+
+  .row{display:flex; flex-wrap:wrap; gap:18px; justify-content:center; align-items:flex-start}
+
+  /* HERO */
+  .logo-badge{display:inline-flex; align-items:center; gap:14px; background:var(--cream); padding:12px 26px 14px; border-radius:26px; box-shadow:var(--hard)}
+  .logo-badge .lw{font-family:'Baloo 2',cursive; font-weight:800; font-size:clamp(38px,8vw,70px); line-height:1}
+  .logo-badge .a{color:var(--red)} .logo-badge .b{color:var(--blue)}
+  .logo-badge svg{width:clamp(46px,8vw,66px); height:auto}
+  .pills{display:flex; gap:9px; justify-content:center; flex-wrap:wrap; margin-top:20px}
+  .pill{font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; padding:8px 16px; border-radius:999px; box-shadow:3px 3px 0 rgba(0,0,0,.2); color:#fff}
+  .p-red{background:var(--red)} .p-green{background:var(--green)} .p-yellow{background:var(--yellow);color:var(--ink)} .p-pink{background:var(--pink)} .p-purple{background:var(--purple)}
+  .scrollcue{margin-top:22px; font-family:'Caveat',cursive; font-weight:700; font-size:24px; opacity:.9}
+  .scrollcue b{display:inline-block; animation:bob 1.5s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+  .pop{opacity:0; transform:translateY(18px) scale(.97)}
+  body.fancy .pop{animation:po .7s cubic-bezier(.2,.9,.25,1.25) forwards}
+  body:not(.fancy) .pop{opacity:1; transform:none}
+  .d1{animation-delay:.05s}.d2{animation-delay:.18s}.d3{animation-delay:.32s}.d4{animation-delay:.46s}
+  @keyframes po{to{opacity:1;transform:none}}
+
+  .reveal{opacity:0; transform:translateY(22px)}
+  .reveal.in{opacity:1; transform:none; transition:opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1)}
+
+  /* MEET */
+  .meet{display:grid; grid-template-columns:330px 1fr; gap:34px; align-items:center}
+  .meet .photo-wrap{position:relative; justify-self:center}
+  .cutout{display:block; filter:
+    drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff)
+    drop-shadow(2px 2px 0 #fff) drop-shadow(-2px -2px 0 #fff) drop-shadow(2px -2px 0 #fff) drop-shadow(-2px 2px 0 #fff)
+    drop-shadow(6px 9px 7px rgba(0,0,0,.32));}
+  .burst{position:absolute; z-index:0; width:118%; height:118%; left:-9%; top:-9%}
+  .meet .bio .hi{font-family:'Caveat',cursive; font-weight:700; font-size:32px; color:var(--red)}
+  .meet .bio h3{font-family:'Baloo 2',cursive; font-weight:800; font-size:clamp(24px,4vw,36px); margin:.05em 0 .35em; line-height:1.05}
+  .meet .bio p{font-size:16.5px; margin:.5em 0; font-weight:600}
+  .nametag{position:absolute; z-index:10; bottom:-16px; left:-14px; background:var(--yellow); color:var(--ink);
+    font-family:'Baloo 2',cursive; font-weight:800; font-size:19px; padding:7px 16px; border-radius:12px; box-shadow:3px 3px 0 rgba(0,0,0,.25); transform:rotate(-5deg)}
+
+  /* EXPLORE cloud */
+  .acloud{display:flex; flex-wrap:wrap; gap:11px; justify-content:center; margin-top:6px}
+  .achip{font-family:'Fredoka',sans-serif; font-weight:600; font-size:15px; background:var(--cream); color:var(--ink);
+    padding:11px 17px; border-radius:14px; box-shadow:4px 4px 0 rgba(0,0,0,.18)}
+  .achip b{font-weight:700}
+  .bignote{font-family:'Caveat',cursive; font-weight:700; font-size:26px; text-align:center; margin-top:20px}
+
+  /* PEEK */
+  .peek{background:#fff; border-radius:22px; padding:22px; box-shadow:var(--hard); color:var(--ink)}
+  .ptabs{display:flex; flex-wrap:wrap; gap:9px; justify-content:center; margin-bottom:20px}
+  .ptab{font-family:'Fredoka',sans-serif; font-weight:600; font-size:14.5px; cursor:pointer; background:var(--cream);
+    border:2.5px solid var(--ink); padding:8px 15px; border-radius:999px; transition:all .15s ease; box-shadow:2px 2px 0 var(--ink)}
+  body.fancy .ptab{cursor:none}
+  .ptab.on{background:var(--blue); color:#fff; transform:translate(-1px,-1px); box-shadow:4px 4px 0 var(--ink)}
+  .pbody{display:grid; grid-template-columns:170px 1fr; gap:22px; align-items:center}
+  .part{width:170px;height:170px;background:var(--cream);border-radius:16px;display:flex;align-items:center;justify-content:center; border:2.5px solid var(--ink)}
+  .part svg{width:122px;height:122px}
+  .pinfo h4{font-family:'Baloo 2',cursive; font-weight:800; font-size:24px; margin:0 0 5px; color:var(--blue)}
+  .pinfo .what{font-size:16px; margin:0 0 12px; font-weight:600}
+  .plearn{display:flex; flex-wrap:wrap; gap:8px}
+  .plearn span{font-size:13px; background:var(--yellow); color:var(--ink); font-weight:700; padding:5px 12px; border-radius:999px}
+
+  /* TEE */
+  .teeband{display:grid; grid-template-columns:230px 1fr; gap:28px; align-items:center}
+  .teeband svg{width:215px;height:auto; filter:drop-shadow(6px 6px 0 rgba(0,0,0,.2))}
+  .teeband h3{font-family:'Baloo 2',cursive; font-weight:800; font-size:clamp(24px,4vw,36px); margin:.05em 0 .3em}
+  .teeband p{font-size:16px; margin:.4em 0; font-weight:600}
+  .teeband .star{font-family:'Caveat',cursive; font-weight:700; font-size:26px; color:var(--yellow)}
+
+  /* TAKE HOME */
+  .take{display:grid; grid-template-columns:repeat(auto-fit,minmax(225px,1fr)); gap:14px}
+  .titem{display:flex; gap:13px; align-items:flex-start; background:#fff; border-radius:16px; padding:15px 17px; box-shadow:var(--hard); color:var(--ink)}
+  .titem .dot{width:40px;height:40px;flex:none;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Baloo 2',cursive;font-weight:800;font-size:19px}
+  .titem h4{font-family:'Fredoka',sans-serif; font-weight:700; margin:0 0 2px; font-size:16.5px}
+  .titem p{margin:0; font-size:14px; font-weight:600; opacity:.8}
+
+  /* DIFFERENT */
+  .diff{display:grid; grid-template-columns:repeat(auto-fit,minmax(235px,1fr)); gap:14px}
+  .dcard{position:relative; background:var(--cream); color:var(--ink); border-radius:16px; padding:18px 17px; box-shadow:var(--hard); overflow:hidden}
+  .dcard .ic{font-size:30px; margin-bottom:6px}
+  .dcard h4{font-family:'Baloo 2',cursive; font-weight:800; font-size:18px; margin:0 0 4px}
+  .dcard p{margin:0; font-size:14.5px; font-weight:600; opacity:.82}
+  .dcard .nw{position:absolute; top:13px; right:-30px; transform:rotate(38deg); background:var(--red); color:#fff; font-family:'Baloo 2',cursive; font-weight:800; font-size:11px; padding:4px 36px; box-shadow:2px 2px 0 rgba(0,0,0,.2)}
+
+  /* GROUP LABEL + SORTED + TOOLS */
+  .grouplabel{display:inline-block; font-family:'Baloo 2',cursive; font-weight:800; font-size:20px; background:var(--cream); color:var(--ink); padding:7px 22px; border-radius:14px; box-shadow:4px 4px 0 rgba(0,0,0,.2); transform:rotate(-1.5deg)}
+  .sorted-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px}
+  .scard{background:var(--cream); color:var(--ink); border-radius:16px; padding:18px 17px; box-shadow:var(--hard)}
+  .scard .ic{font-size:30px; margin-bottom:6px}
+  .scard h4{font-family:'Baloo 2',cursive; font-weight:800; font-size:18px; margin:0 0 4px}
+  .scard p{margin:0; font-size:14.5px; font-weight:600; opacity:.82}
+  .tools{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px}
+  .tool{display:flex; gap:14px; align-items:center; background:#fff; border-radius:16px; padding:14px; box-shadow:var(--hard); color:var(--ink)}
+  .tool .ti{width:104px; height:104px; flex:none; border-radius:10px; background:var(--cream); object-fit:contain; display:flex; align-items:center; justify-content:center}
+  .tool .ti img{width:100%; height:100%; object-fit:contain; border-radius:10px}
+  .tool .ti svg{width:92px; height:auto}
+  .tool h4{font-family:'Baloo 2',cursive; font-weight:800; font-size:17px; margin:0 0 3px; color:var(--blue)}
+  .tool p{margin:0; font-size:13.5px; font-weight:600; opacity:.82}
+  @media(max-width:620px){.tools{grid-template-columns:1fr}}
+
+  /* NAV */
+  .nav{position:sticky; top:0; z-index:900; background:var(--cream); border-bottom:3px solid var(--ink)}
+  .nav-in{max-width:1060px; margin:0 auto; padding:9px 18px; display:flex; align-items:center; justify-content:space-between; gap:12px}
+  .navlogo{font-family:'Baloo 2',cursive; font-weight:800; font-size:22px; color:var(--red)}
+  .navlogo span{color:var(--blue)}
+  .nav nav{display:flex; align-items:center; gap:18px}
+  .nav a{font-family:'Fredoka',sans-serif; font-weight:600; font-size:15px; color:var(--ink); text-decoration:none}
+  .navbtn{background:var(--blue); color:#fff !important; padding:8px 16px; border-radius:999px; box-shadow:3px 3px 0 rgba(0,0,0,.2)}
+  body.fancy .nav a{cursor:none}
+  @media(max-width:640px){ .nav .lnk{display:none} }
+
+  /* WHATSAPP FLOAT */
+  .wafloat{position:fixed; right:18px; bottom:18px; z-index:950; width:58px; height:58px; border-radius:50%; background:#25D366; box-shadow:0 8px 22px rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center; text-decoration:none}
+  .wafloat svg{width:34px;height:34px;fill:#fff}
+  body.fancy .wafloat{cursor:none}
+
+  /* SCHEDULE */
+  .sched-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px}
+  .scbox{background:#fff; color:var(--ink); border-radius:18px; padding:22px; box-shadow:var(--hard)}
+  .scbox h4{font-family:'Baloo 2',cursive; font-weight:800; font-size:20px; margin:0 0 10px; color:var(--blue)}
+  .scbox .line{display:flex; gap:10px; align-items:flex-start; margin:9px 0; font-weight:600; font-size:15.5px}
+  .scbox .line b{font-weight:800}
+  .thisweek{background:var(--yellow)} .thisweek h4{color:#7a4d00}
+  .thisweek .big{font-family:'Baloo 2',cursive; font-weight:800; font-size:23px; margin:8px 0; color:var(--red)}
+  @media(max-width:620px){ .sched-grid{grid-template-columns:1fr} }
+
+  /* FAQ */
+  .faq{max-width:760px; margin:24px auto 0}
+  .qa{background:#fff; color:var(--ink); border-radius:14px; margin-bottom:10px; box-shadow:var(--hard); overflow:hidden}
+  .qa button{width:100%; text-align:left; background:none; border:none; padding:16px 18px; font-family:'Fredoka',sans-serif; font-weight:700; font-size:16.5px; color:var(--ink); cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:10px}
+  body.fancy .qa button{cursor:none}
+  .qa .ans{max-height:0; overflow:hidden; transition:max-height .3s ease}
+  .qa.open .ans{max-height:260px}
+  .qa .ans p{margin:0; padding:0 18px 16px; font-size:15px; font-weight:600; opacity:.85}
+  .qa .chev{transition:transform .25s ease; flex:none; font-size:14px}
+  .qa.open .chev{transform:rotate(180deg)}
+
+  /* FORM */
+  .form{max-width:600px; margin:24px auto 0; background:#fff; color:var(--ink); border-radius:20px; padding:26px; box-shadow:var(--hard)}
+  .form label{display:block; font-family:'Fredoka',sans-serif; font-weight:700; font-size:14px; margin:14px 0 6px}
+  .form input,.form select,.form textarea{width:100%; padding:12px 14px; border:2.5px solid var(--ink); border-radius:12px; font-family:'Nunito',sans-serif; font-size:15px; font-weight:600; background:var(--cream); color:var(--ink)}
+  .form .send{margin-top:18px; width:100%; background:#25D366; color:#fff; border:none; padding:14px; border-radius:12px; font-family:'Baloo 2',cursive; font-weight:800; font-size:18px; cursor:pointer; box-shadow:4px 4px 0 rgba(0,0,0,.2)}
+  body.fancy .form .send,body.fancy .form input,body.fancy .form select,body.fancy .form textarea{cursor:none}
+  .form .alt{text-align:center; margin-top:14px; font-weight:600; font-size:14.5px}
+  .form .alt a{color:var(--blue); font-weight:700}
+  @media print{ .nav,.wafloat{display:none} }
+
+  /* CTA */
+  .cta h2{font-family:'Baloo 2',cursive; font-weight:800; font-size:clamp(30px,6.5vw,52px); margin:0 0 6px; text-shadow:4px 4px 0 rgba(0,0,0,.2)}
+  .cta .t2{font-family:'Caveat',cursive; font-weight:700; font-size:30px; margin-bottom:16px}
+  .cta .contact{font-family:'Fredoka',sans-serif; font-weight:700; font-size:18px; line-height:2}
+  .cta .ph{opacity:.85; font-weight:500; font-style:italic}
+
+  @media (max-width:680px){
+    .meet{grid-template-columns:1fr; text-align:center} .meet .bio .hi{display:block}
+    .pbody{grid-template-columns:1fr; justify-items:center; text-align:center} .plearn{justify-content:center}
+    .teeband{grid-template-columns:1fr; text-align:center; justify-items:center}
+    .magnet{width:82px;height:82px;right:-10px;top:-14px}
+  }
+  .print-only{display:none}
+  @media print{
+    @page{ margin:0; }
+    body{cursor:auto; background:var(--cream)}
+    #cursor,.scrollcue,.nav,.wafloat,.web-only{display:none}
+    .reveal{opacity:1;transform:none} .print-only{display:block}
+    .band{page-break-before:always; min-height:100vh; padding:50px 32px}
+    section.band:first-of-type{page-break-before:avoid}
+    .band .inner{max-width:100%}
+    .ttl{font-size:34px}
+    .meet,.sticker,.dcard,.titem,.scard,.tool,.teeband{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<svg id="cursor" viewBox="0 0 42 42" aria-hidden="true">
+  <g transform="rotate(-30 21 21)">
+    <rect x="18" y="4" width="6" height="20" rx="3" fill="#FFC93C"/>
+    <rect x="17" y="22" width="8" height="6" rx="2" fill="#9A6A12"/>
+    <path d="M16 27 h10 l-2 9 a3 3 0 0 1 -6 0 z" fill="#F5402C"/>
+  </g>
+</svg>
+
+<header class="nav">
+  <div class="nav-in">
+    <span class="navlogo">crafty<span>lab</span></span>
+    <nav>
+      <a class="lnk" href="#explore">classes</a>
+      <a class="lnk" href="#schedule">schedule</a>
+      <a class="lnk" href="#faq">faq</a>
+      <a class="navbtn" href="#book">Book a free trial</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="band b-blue grid-bg center">
+  <svg class="doodle" style="left:6%;top:18%" width="58" height="58" viewBox="0 0 60 60"><g fill="#FFC93C"><circle cx="30" cy="30" r="9"/><g><ellipse cx="30" cy="13" rx="7" ry="11"/><ellipse cx="30" cy="47" rx="7" ry="11"/><ellipse cx="13" cy="30" rx="11" ry="7"/><ellipse cx="47" cy="30" rx="11" ry="7"/></g></g><circle cx="30" cy="30" r="5" fill="#F5402C"/></svg>
+  <svg class="doodle" style="right:7%;top:14%" width="46" height="46" viewBox="0 0 40 40"><polygon points="20,1 24,15 39,15 27,24 31,39 20,30 9,39 13,24 1,15 16,15" fill="#FF5BA0"/></svg>
+  <svg class="doodle" style="left:13%;bottom:10%" width="40" height="40" viewBox="0 0 40 40"><polygon points="20,3 23,16 37,16 26,24 30,38 20,29 10,38 14,24 3,16 17,16" fill="#23A848"/></svg>
+  <svg class="doodle" style="right:12%;bottom:14%" width="70" height="30" viewBox="0 0 70 30"><path d="M3 15 q12 -16 24 0 t24 0 t16 0" fill="none" stroke="#FFC93C" stroke-width="4" stroke-linecap="round"/></svg>
+  <div class="inner">
+    <div class="logo-badge pop d1" style="padding:16px 26px 14px">
+      <svg viewBox="0 0 540 150" style="width:min(430px,80vw);height:auto" aria-label="CraftyLab">
+        <polygon points="48,38 54,56 72,48 60,64 76,74 56,76 60,96 46,82 34,96 36,76 18,72 36,62 26,44 44,50" fill="#FFC93C"/>
+        <polygon points="498,50 503,64 517,58 508,70 520,78 505,80 508,96 497,85 487,96 489,80 475,76 489,68 481,54 495,60" fill="#FF5BA0"/>
+        <text x="270" y="106" text-anchor="middle" font-family="'Baloo 2',sans-serif" font-weight="800" font-size="92" style="paint-order:stroke" stroke="#16110f" stroke-width="9" stroke-linejoin="round"><tspan fill="#F5402C">crafty</tspan><tspan fill="#2657E8">lab</tspan></text>
+        <path d="M92 130 q40 -16 79 0 t79 0 t79 0 t79 0" fill="none" stroke="#23A848" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="sub pop d2" style="font-size:clamp(26px,5vw,40px); color:#FFC93C; transform:rotate(-2deg)">stay crafty!</div>
+    <p class="pop d3 fred" style="font-weight:600; font-size:clamp(15px,2.6vw,20px); margin:12px 0 0">A creative art studio for kids · ages 5 to 12</p>
+    <div class="pills pop d3">
+      <span class="pill p-red">painting</span><span class="pill p-yellow">drawing</span><span class="pill p-green">crochet</span>
+      <span class="pill p-pink">markers</span><span class="pill p-purple">clay &amp; craft</span><span class="pill p-red">make your own tee</span>
+    </div>
+    <div class="scrollcue pop d4">scroll down to peek inside <b>↓</b></div>
+  </div>
+</section>
+
+<!-- ============ MEET SUSHMA ============ -->
+<section class="band b-cream grid-bg reveal">
+  <svg class="doodle" style="right:8%;top:12%" width="54" height="54" viewBox="0 0 60 60"><g fill="#F5402C"><circle cx="30" cy="30" r="9"/><ellipse cx="30" cy="13" rx="7" ry="11"/><ellipse cx="30" cy="47" rx="7" ry="11"/><ellipse cx="13" cy="30" rx="11" ry="7"/><ellipse cx="47" cy="30" rx="11" ry="7"/></g><circle cx="30" cy="30" r="5" fill="#FBF4E6"/></svg>
+  <svg class="doodle" style="left:4%;bottom:8%" width="40" height="40" viewBox="0 0 40 40"><polygon points="20,1 24,15 39,15 27,24 31,39 20,30 9,39 13,24 1,15 16,15" fill="#2657E8"/></svg>
+  <div class="inner meet">
+    <div class="photo-wrap">
+      <svg class="burst" viewBox="0 0 120 120" aria-hidden="true"><polygon points="60,2 70,40 96,18 80,50 118,46 84,62 116,84 78,76 86,116 62,84 44,118 44,80 8,98 30,66 2,58 36,52 16,22 50,42" fill="#FFC93C"/></svg>
+      <img class="cutout r2" id="mePhoto" src="assets/edited/sushma_cutout.png" alt="Sushma holding her crochet tapestry" style="width:310px; position:relative; z-index:5">
+      <div class="nametag">that's me! 🎨</div>
+    </div>
+    <div class="bio">
+      <span class="hi">Hi, I'm Sushma!</span>
+      <h3>I've always been an art kid.</h3>
+      <p>For as long as I can remember, anything art has pulled me in. If it could be drawn, painted, stitched, folded or made by hand, I wanted to try it. That curiosity never left, it just kept growing.</p>
+      <p>Now I get to pass it on. At CraftyLab you won't just sit and watch, you'll <strong>make</strong>. You'll create something real with your own hands and carry it home, proud. No screens, no pressure. Just colour, mess and a whole lot of fun.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPLORE ============ -->
+<section id="explore" class="band b-red half center reveal">
+  <svg class="doodle" style="left:6%;top:16%" width="44" height="44" viewBox="0 0 40 40"><polygon points="20,1 24,15 39,15 27,24 31,39 20,30 9,39 13,24 1,15 16,15" fill="#FFC93C"/></svg>
+  <svg class="doodle" style="right:6%;bottom:12%" width="44" height="44" viewBox="0 0 40 40"><polygon points="20,1 24,15 39,15 27,24 31,39 20,30 9,39 13,24 1,15 16,15" fill="#FFC93C"/></svg>
+  <div class="inner">
+    <h2 class="ttl">Way more than one craft</h2>
+    <p class="sub">a brand new thing to make, every single week</p>
+    <div class="acloud" style="margin-top:24px">
+      <span class="achip">🎨 <b>painting</b></span><span class="achip">✏️ <b>drawing &amp; sketching</b></span><span class="achip">🖊️ <b>alcohol markers</b></span>
+      <span class="achip">🧶 <b>crochet &amp; amigurumi</b></span><span class="achip">🪀 <b>clay charms</b></span><span class="achip">📄 <b>paper craft &amp; origami</b></span>
+      <span class="achip">🌈 <b>mandala &amp; doodle art</b></span><span class="achip">✂️ <b>collage</b></span><span class="achip">💌 <b>card making</b></span>
+      <span class="achip">🧵 <b>friendship bracelets</b></span><span class="achip">🖼️ <b>canvas art</b></span><span class="achip">👕 <b>cricut tees &amp; stickers</b></span>
+      <span class="achip">🪅 <b>DIY crafts</b></span><span class="achip">🎃 <b>seasonal crafts</b></span><span class="achip">🌟 <b>and so much more</b></span>
+    </div>
+    <p class="bignote">You'll try everything, then fall in love with your favourite ✨</p>
+  </div>
+</section>
+
+<!-- ============ EVERYTHING SORTED ============ -->
+<section class="band b-blue grid-bg reveal">
+  <div class="inner">
+    <h2 class="ttl center">Everything's sorted, just send your kid</h2>
+    <p class="sub center">no experience needed, and nothing to buy</p>
+    <div class="sorted-grid" style="margin-top:24px">
+      <div class="scard"><div class="ic">🎒</div><h4>All materials provided</h4><p>Yarn, markers, paper, clay, canvas, everything. Parents don't buy a single thing.</p></div>
+      <div class="scard"><div class="ic">🌱</div><h4>We start from the basics</h4><p>No experience needed. The first classes teach the fundamentals, then we build up together.</p></div>
+      <div class="scard"><div class="ic">📩</div><h4>Just send your child</h4><p>That's the whole job. They show up, and we take care of the rest.</p></div>
+    </div>
+    <div class="tools">
+      <div class="tool">
+        <div class="ti"><img src="assets/products/ohuhu320.jpg" alt="Ohuhu 320 colour alcohol marker set"></div>
+        <div><h4>Ohuhu 320 markers</h4><p>A professional 320 colour artist marker set. Pro markers that blend smoothly for rich, vibrant art.</p></div>
+      </div>
+      <div class="tool">
+        <div class="ti"><svg viewBox="0 0 220 130" aria-hidden="true"><rect x="18" y="42" width="184" height="60" rx="14" fill="#7FB7B0" stroke="#0F6E56" stroke-width="3"/><rect x="18" y="42" width="184" height="22" rx="11" fill="#9FCFC8"/><rect x="40" y="50" width="40" height="8" rx="4" fill="#0F6E56" opacity=".5"/><rect x="6" y="96" width="208" height="16" rx="6" fill="#5DA59C" stroke="#0F6E56" stroke-width="2.5"/><rect x="60" y="100" width="100" height="8" rx="4" fill="#E1F5EE"/><text x="110" y="84" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="600" font-size="15" fill="#0F6E56">Cricut Maker 4</text></svg></div>
+        <div><h4>Cricut Maker 4</h4><p>A smart machine that cuts out designs to make stickers, t-shirt prints, cards and more.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PEEK (interactive) ============ -->
+<section class="band b-yellow center reveal web-only">
+  <div class="inner">
+    <h2 class="ttl">Peek at what you'll make</h2>
+    <p class="sub">tap a project, see what's inside</p>
+    <div class="peek" style="margin-top:24px; text-align:left">
+      <div class="ptabs" id="ptabs"></div>
+      <div class="pbody">
+        <div class="part" id="peekArt"></div>
+        <div class="pinfo">
+          <h4 id="peekTitle"></h4>
+          <p class="what" id="peekWhat"></p>
+          <div class="plearn" id="peekLearn"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SEE WHAT I MAKE ============ -->
+<section class="band b-green half reveal tall">
+  <div class="inner">
+    <h2 class="ttl center">See what I make</h2>
+    <p class="sub center">so your kids know they're in good hands</p>
+
+    <div class="center" style="margin:28px 0 12px"><span class="grouplabel">crochet 🧶</span></div>
+    <div class="row">
+      <div class="sticker r2" style="width:290px"><img src="assets/edited/tapestry_flatlay.jpg" alt="Floral crochet tapestry in progress"><div class="tag">my tapestry, still in progress 🧶</div></div>
+      <div class="sticker r3" style="width:205px"><img src="assets/edited/tapestry_chart.jpg" alt="The crochet chart"><div class="tag">the chart I'm following 📋</div></div>
+      <div class="sticker r4" style="width:205px"><img src="assets/edited/organizer.jpg" alt="Crochet organizer bag"><div class="tag">real, useful crochet 👜</div></div>
+    </div>
+    <div class="row" style="margin-top:20px; align-items:center">
+      <div class="sticker r2" style="width:215px"><img src="assets/edited/mushroom.jpg" alt="Crochet mushroom"><div class="tag">a little amigurumi mushroom 🍄</div></div>
+      <svg width="80" height="60" viewBox="0 0 80 60" aria-hidden="true" style="align-self:center"><path d="M6 30 q34 -22 60 0" fill="none" stroke="#FBF4E6" stroke-width="5" stroke-linecap="round"/><path d="M54 16 l16 14 -18 12" fill="none" stroke="#FBF4E6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><text x="36" y="55" text-anchor="middle" font-family="Caveat,cursive" font-weight="700" font-size="19" fill="#FBF4E6">then…</text></svg>
+      <div class="sticker r3" style="width:235px"><img src="assets/edited/mushroom_jhumka.jpg" alt="Mushroom used as a jhumka and ring holder"><div class="tag">…it becomes a jhumka stand! 💍</div></div>
+      <div class="sticker r5" style="width:185px"><img src="assets/edited/rose.jpg" alt="Crochet rose bookmark"><div class="tag">a crochet rose bookmark 🔖</div></div>
+    </div>
+
+    <div class="center" style="margin:34px 0 12px"><span class="grouplabel">alcohol markers 🖊️</span></div>
+    <div class="row">
+      <div class="sticker r2" style="width:245px"><img src="assets/edited/am_whales.jpg" alt="Cosmic whales marker art"><div class="tag">my favourite piece 🐋✨</div></div>
+      <div class="sticker r4" style="width:215px"><img src="assets/edited/am_spiderpunk.jpg" alt="Spider-Punk drawing"><div class="tag">comic style superhero 🕷️</div></div>
+      <div class="sticker r3" style="width:190px"><img src="assets/edited/am_pizza.jpg" alt="Pizza drawing"><div class="tag">yummy food art 🍕</div></div>
+    </div>
+    <div class="row" style="margin-top:20px">
+      <div class="sticker r5" style="width:200px"><img src="assets/edited/am_abstract.jpg" alt="A bold abstract marker piece"><div class="tag">going wild with colour 🔥</div></div>
+      <div class="sticker r3" style="width:300px"><img src="assets/edited/am_wall.jpg" alt="A wall of Sushma's marker art"><div class="tag">a little corner of my room 🙈</div></div>
+      <div class="sticker r4" style="width:175px"><img src="assets/edited/am_strawberries.jpg" alt="Realistic strawberries"><div class="tag">realistic strawberries 🍓</div></div>
+      <div class="sticker r2" style="width:175px"><img src="assets/edited/am_icecream.jpg" alt="Melting earth ice cream"><div class="tag">art with a message 🍦🌍</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MAKE YOUR OWN TEE ============ -->
+<section class="band b-purple reveal">
+  <div class="inner teeband">
+    <svg viewBox="0 0 230 250" aria-hidden="true">
+      <path d="M58 16 Q30 26 6 46 L18 86 L48 74 L44 234 a6 6 0 0 0 6 6 h130 a6 6 0 0 0 6 -6 L188 74 L218 86 L224 46 Q200 26 172 16 Q115 44 58 16 Z" fill="#FBF4E6" stroke="#16110f" stroke-width="4"/>
+      <path d="M58 16 Q115 44 172 16" fill="none" stroke="#16110f" stroke-width="5"/>
+      <polygon points="115,78 123,104 150,104 128,120 136,146 115,130 94,146 102,120 80,104 107,104" fill="#FFC93C" stroke="#16110f" stroke-width="2" stroke-linejoin="round"/>
+      <text x="115" y="186" text-anchor="middle" font-family="Baloo 2,cursive" font-weight="800" font-size="30" style="paint-order:stroke" stroke="#16110f" stroke-width="4" stroke-linejoin="round"><tspan fill="#F5402C">crafty</tspan><tspan fill="#2657E8">lab</tspan></text>
+      <text x="115" y="210" text-anchor="middle" font-family="Caveat,cursive" font-weight="700" font-size="20" fill="#F26A3D">stay crafty!</text>
+    </svg>
+    <div>
+      <div class="star">the part you'll love most 👇</div>
+      <h3>You make your own CraftyLab tee</h3>
+      <p>You get a blank studio tee, then design it and press it on yourself. Your uniform, your art. The whole crew walks in matching, but every single one is different.</p>
+      <p style="opacity:.85; font-size:14.5px">(yes, on a real Cricut Maker 4! 💪)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAKE HOME ============ -->
+<section class="band b-pink reveal">
+  <div class="inner">
+    <h2 class="ttl center">What you'll take home</h2>
+    <p class="sub center">way more than a craft</p>
+    <div class="take" style="margin-top:24px">
+      <div class="titem"><div class="dot" style="background:var(--red)">1</div><div><h4>real hand skills</h4><p>focus, patience and fine motor control</p></div></div>
+      <div class="titem"><div class="dot" style="background:var(--blue)">2</div><div><h4>colour &amp; creativity</h4><p>colour theory, design and imagination</p></div></div>
+      <div class="titem"><div class="dot" style="background:var(--green)">3</div><div><h4>a finished keepsake</h4><p>something to be proud of and keep</p></div></div>
+      <div class="titem"><div class="dot" style="background:var(--yellow);color:var(--ink)">4</div><div><h4>real confidence</h4><p>"I made this myself" is the best feeling</p></div></div>
+      <div class="titem"><div class="dot" style="background:var(--purple)">5</div><div><h4>calm screen free time</h4><p>hands busy, mind happy, off devices</p></div></div>
+      <div class="titem"><div class="dot" style="background:var(--red)">6</div><div><h4>new little friends</h4><p>making and creating together as a crew</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIFFERENT ============ -->
+<section class="band b-yellow half reveal tall">
+  <div class="inner">
+    <h2 class="ttl center">Why CraftyLab hits different</h2>
+    <p class="sub center">this is not your usual art class</p>
+    <div class="diff" style="margin-top:24px">
+      <div class="dcard"><span class="nw">NEW</span><div class="ic">🎬</div><h4>A sneak peek, every time</h4><p>Before each class you get a short video, so you know exactly what you'll make. You'll show up already excited.</p></div>
+      <div class="dcard"><span class="nw">NEW</span><div class="ic">👕</div><h4>Make your own studio tee</h4><p>You decorate your own CraftyLab tee. A uniform you actually made yourself.</p></div>
+      <div class="dcard"><div class="ic">🎁</div><h4>Always something to take home</h4><p>Small projects come home the same day. Bigger ones build over a few weeks, then they're yours to keep.</p></div>
+      <div class="dcard"><span class="nw">NEW</span><div class="ic">🪄</div><h4>The magic combo</h4><p>Draw your own character, we turn it into a real sticker or tee you wear home.</p></div>
+      <div class="dcard"><div class="ic">🏆</div><h4>Showcase day</h4><p>At term end you display everything you made. A real little exhibition.</p></div>
+      <div class="dcard"><div class="ic">🌈</div><h4>A new craft weekly</h4><p>Painting, clay, paper, crochet and more. Never the same class twice.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCHEDULE + THIS WEEK ============ -->
+<section id="schedule" class="band b-purple reveal web-only">
+  <div class="inner">
+    <h2 class="ttl center">Classes &amp; schedule</h2>
+    <p class="sub center">small groups, big fun</p>
+    <div class="sched-grid">
+      <div class="scbox">
+        <h4>🗓️ weekly classes</h4>
+        <div class="line">🕒 <span><b>Flexible timings</b>, set around what works for your family</span></div>
+        <div class="line">🎂 <span>ages <b>5 to 12</b>, all levels welcome</span></div>
+        <div class="line">👫 <span>small groups, once a week</span></div>
+        <div class="line">💰 <span><b>₹2,000</b> / month · everything included</span></div>
+        <a href="#book" style="display:inline-block;margin-top:14px;background:var(--blue);color:#fff;font-family:'Fredoka',sans-serif;font-weight:700;font-size:15px;padding:10px 18px;border-radius:999px;text-decoration:none;box-shadow:3px 3px 0 rgba(0,0,0,.2)">Tell me your preferred slot →</a>
+      </div>
+      <div class="scbox thisweek">
+        <h4>🎬 this week we're making…</h4>
+        <div class="big">[a clay charm keychain! 🪀]</div>
+        <p style="font-weight:600;margin:6px 0 0">Every week I share a quick sneak peek so you know exactly what's coming. (Sushma, just update this line each week!)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="band b-cream grid-bg reveal web-only">
+  <div class="inner">
+    <h2 class="ttl center">Questions parents ask</h2>
+    <div class="faq">
+      <div class="qa"><button>What ages is CraftyLab for? <span class="chev">▾</span></button><div class="ans"><p>Ages 5 to 12. Every project is adjusted so each age is challenged at their own level, the little ones and the older kids both have a great time.</p></div></div>
+      <div class="qa"><button>Does my child need any experience? <span class="chev">▾</span></button><div class="ans"><p>None at all. We always start from the basics, so complete beginners fit right in and build up week by week.</p></div></div>
+      <div class="qa"><button>What should they bring? <span class="chev">▾</span></button><div class="ans"><p>Just themselves! All materials and tools are provided, including professional markers and a Cricut machine.</p></div></div>
+      <div class="qa"><button>How much does it cost? <span class="chev">▾</span></button><div class="ans"><p>₹2,000 a month for weekly classes, with everything included. The first trial class is free.</p></div></div>
+      <div class="qa"><button>Where are the classes held? <span class="chev">▾</span></button><div class="ans"><p>Right in your colony at [your area]. Message me for the exact spot and timings.</p></div></div>
+      <div class="qa"><button>Is it safe for little ones? <span class="chev">▾</span></button><div class="ans"><p>Yes. Small, supervised groups with kid safe, non toxic materials throughout.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOOK / ENROL ============ -->
+<section id="book" class="band b-green reveal web-only">
+  <div class="inner">
+    <h2 class="ttl center">Book a free trial 🎨</h2>
+    <p class="sub center">2 minutes, and I'll reply on WhatsApp</p>
+    <div class="form" style="text-align:center">
+      <p style="font-weight:600;font-size:16px;margin:0 0 18px">Tell me your child's age, your colony and what timings suit your family. The first class is free, and I'll get back to you personally on WhatsApp.</p>
+      <a data-form href="#" target="_blank" rel="noopener" style="display:inline-block;background:#25D366;color:#fff;font-family:'Baloo 2',cursive;font-weight:800;font-size:18px;padding:14px 28px;border-radius:12px;text-decoration:none;box-shadow:4px 4px 0 rgba(0,0,0,.2)">📝 Open the free-trial form</a>
+      <div class="alt" style="margin-top:16px">or message me directly on <a data-wa href="#">WhatsApp</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="band b-cta center reveal">
+  <svg class="doodle" style="left:8%;top:20%" width="44" height="44" viewBox="0 0 40 40"><polygon points="20,1 24,15 39,15 27,24 31,39 20,30 9,39 13,24 1,15 16,15" fill="#FFC93C"/></svg>
+  <svg class="doodle" style="right:9%;bottom:18%" width="40" height="40" viewBox="0 0 40 40"><polygon points="20,1 24,15 39,15 27,24 31,39 20,30 9,39 13,24 1,15 16,15" fill="#FBF4E6"/></svg>
+  <div class="inner cta">
+    <h2>Let's make something together! 🎨</h2>
+    <div class="t2">come craft with us at CraftyLab</div>
+    <p class="print-only" style="max-width:560px;margin:0 auto 14px;font-weight:600;font-size:16px;color:#fff">I'd love to bring CraftyLab to your colony. Just tell me which days and times suit your families, and I'll build the class schedule around them.</p>
+    <a data-form href="#book" style="display:inline-block;margin:6px auto 18px;background:#fff;color:#16110f;font-family:'Baloo 2',cursive;font-weight:800;font-size:18px;padding:13px 26px;border-radius:999px;text-decoration:none;box-shadow:4px 4px 0 rgba(0,0,0,.25)">📝 Book a free trial &amp; class timings</a>
+    <div class="contact">Sushma · <a data-wa style="color:#fff;text-decoration:underline">WhatsApp +91 91766 40336</a><br>trycraftylab.com</div>
+  </div>
+</section>
+
+<a class="wafloat" data-wa href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9.4 3 4 8.3 4 14.9c0 2.4.7 4.6 1.9 6.5L4 29l7-1.8c1.8 1 3.8 1.5 5.9 1.5h.1c6.6 0 12-5.3 12-11.9C29 8.3 23.6 3 16 3zm0 21.7c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-4.2 1.1 1.1-4-.2-.4c-1-1.6-1.5-3.4-1.5-5.3 0-5.5 4.6-9.9 10.3-9.9 2.8 0 5.3 1 7.3 2.9 1.9 1.9 3 4.4 3 7 0 5.5-4.7 10.1-10.3 10.1zm5.7-7.5c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.2-.2.2-.3.3-.5.1-.2.1-.4 0-.5-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.3-.6-.4z"/></svg>
+</a>
+
+<script>
+(function(){
+  /* ====== Sushma's WhatsApp (country code + number, no + or spaces) ====== */
+  var WA_NUMBER = "919176640336";
+  /* ===================================================================== */
+
+  document.querySelectorAll('[data-wa]').forEach(function(a){ a.href = "https://wa.me/" + WA_NUMBER; });
+
+  /* ====== Paste your Google Form link here (from forms.google.com → Send → Link) ====== */
+  var FORM_URL = "";
+  /* ================================================================================== */
+  if(FORM_URL) document.querySelectorAll('[data-form]').forEach(function(a){ a.href = FORM_URL; });
+
+  var ef = document.getElementById('enrolForm');
+  if(ef) ef.addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = e.target;
+    var t = "Hi Sushma! I'd like to book a free CraftyLab trial.\n\nParent: " + f.parent.value + "\nChild: " + f.child.value + "\nColony: " + (f.colony.value || "-") + "\nPreferred slot: " + f.slot.value + (f.msg.value ? ("\nNote: " + f.msg.value) : "");
+    window.open("https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(t), "_blank");
+  });
+
+  document.querySelectorAll('.qa button').forEach(function(b){
+    b.addEventListener('click', function(){ b.parentElement.classList.toggle('open'); });
+  });
+
+  var staticMode = location.hash === '#static';
+  var fine = window.matchMedia && window.matchMedia('(pointer:fine)').matches;
+  if(fine && !staticMode) document.body.classList.add('fancy');
+
+  var cur = document.getElementById('cursor');
+  if(document.body.classList.contains('fancy')){
+    window.addEventListener('mousemove', function(e){ cur.style.transform='translate('+(e.clientX-6)+'px,'+(e.clientY-4)+'px)'; });
+    document.addEventListener('mouseover', function(e){ if(e.target.closest('a,.ptab,.sticker,.achip,.dcard,.pill')) cur.classList.add('big'); });
+    document.addEventListener('mouseout', function(){ cur.classList.remove('big'); });
+  }
+
+  var els=document.querySelectorAll('.reveal');
+  if(staticMode){ els.forEach(function(e){e.classList.add('in')}); document.querySelectorAll('.qa').forEach(function(q){q.classList.add('open')}); }
+  else if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.1});
+    els.forEach(function(e){io.observe(e)});
+    setTimeout(function(){els.forEach(function(e){e.classList.add('in')})},2600);
+  } else els.forEach(function(e){e.classList.add('in')});
+
+  var projects=[
+    {tab:'🧶 crochet', t:'Your first crochet make', what:"You'll learn the very basics, the chain and your first stitches, then turn them into a cute keychain for your bag.", learn:['holding a hook','the chain stitch','your first stitches','a finished charm'],
+     svg:'<svg viewBox="0 0 120 120"><circle cx="60" cy="24" r="13" fill="none" stroke="#16110f" stroke-width="5"/><rect x="56" y="34" width="8" height="14" rx="3" fill="#FFC93C" stroke="#16110f" stroke-width="2"/><path d="M60 100 q-22 -11 -22 -30 a11 11 0 0 1 22 -5 a11 11 0 0 1 22 5 q0 19 -22 30 z" fill="#F5402C" stroke="#16110f" stroke-width="3"/><path d="M46 64 h28 M46 73 h28 M52 82 h16" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".55"/></svg>'},
+    {tab:'🎨 painting', t:'A canvas painting', what:'Paint a bright little canvas you can hang on your wall at home.', learn:['mixing colours','brush control','backgrounds','signing your art'],
+     svg:'<svg viewBox="0 0 120 120"><rect x="24" y="20" width="72" height="60" rx="4" fill="#FBF4E6" stroke="#16110f" stroke-width="3"/><path d="M30 70 q14 -30 30 -10 t30 -6" fill="none" stroke="#2657E8" stroke-width="6" stroke-linecap="round"/><circle cx="44" cy="38" r="8" fill="#F5402C"/><circle cx="74" cy="46" r="7" fill="#FFC93C"/><rect x="40" y="84" width="40" height="8" rx="4" fill="#23A848"/><rect x="55" y="92" width="10" height="20" fill="#9A6A12"/></svg>'},
+    {tab:'🖊️ markers', t:'Funky marker art', what:'Try bold, funky alcohol marker art and watch a plain drawing burst with colour.', learn:['blending markers','shading & light','bold colour','adding highlights'],
+     svg:'<svg viewBox="0 0 120 120"><polygon points="60,8 70,40 104,40 76,60 86,96 60,74 34,96 44,60 16,40 50,40" fill="#FF5BA0"/><circle cx="60" cy="55" r="14" fill="#FFC93C"/><path d="M28 102 q32 -16 64 0" fill="none" stroke="#2657E8" stroke-width="6" stroke-linecap="round"/></svg>'},
+    {tab:'🪀 clay', t:'A clay charm', what:'Sculpt a tiny clay charm or keychain, paint it, and clip it to your bag.', learn:['shaping clay','tiny details','painting','sealing & finishing'],
+     svg:'<svg viewBox="0 0 120 120"><circle cx="60" cy="62" r="30" fill="#FFC93C" stroke="#16110f" stroke-width="3"/><circle cx="60" cy="30" r="7" fill="none" stroke="#16110f" stroke-width="3"/><circle cx="50" cy="58" r="4" fill="#16110f"/><circle cx="70" cy="58" r="4" fill="#16110f"/><path d="M48 72 q12 12 24 0" fill="none" stroke="#16110f" stroke-width="3" stroke-linecap="round"/><circle cx="44" cy="68" r="4" fill="#FF5BA0"/><circle cx="76" cy="68" r="4" fill="#FF5BA0"/></svg>'},
+    {tab:'👕 your tee', t:'Decorate your tee', what:'Design your own art, press it onto your blank CraftyLab tee, and wear it home.', learn:['iron on vinyl','heat pressing','layout & layers','wearable design'],
+     svg:'<svg viewBox="0 0 120 120"><path d="M44 22 L28 30 L34 46 L46 40 L44 96 a4 4 0 0 0 4 4 h24 a4 4 0 0 0 4 -4 L74 40 L86 46 L92 30 L76 22 Q60 36 44 22 Z" fill="#C23A63" stroke="#16110f" stroke-width="2.5"/><polygon points="60,52 64,62 75,63 67,70 69,81 60,75 51,81 53,70 45,63 56,62" fill="#FFC93C"/></svg>'}
+  ];
+  var tabs=document.getElementById('ptabs'),pArt=document.getElementById('peekArt'),pT=document.getElementById('peekTitle'),pW=document.getElementById('peekWhat'),pL=document.getElementById('peekLearn');
+  function show(i){var p=projects[i];pArt.innerHTML=p.svg;pT.textContent=p.t;pW.textContent=p.what;pL.innerHTML=p.learn.map(function(x){return '<span>'+x+'</span>'}).join('');Array.prototype.forEach.call(tabs.children,function(c,j){c.classList.toggle('on',j===i)})}
+  projects.forEach(function(p,i){var b=document.createElement('div');b.className='ptab';b.textContent=p.tab;b.addEventListener('click',function(){show(i)});tabs.appendChild(b)});
+  show(0);
+})();
+</script>
+</body>
+</html>
