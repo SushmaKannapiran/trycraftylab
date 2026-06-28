@@ -544,10 +544,10 @@
   document.querySelectorAll('[data-wa]').forEach(function(a){ a.href = "https://wa.me/" + WA_NUMBER; });
 
   /* ====== Paste your Google Form link here (from forms.google.com → Send → Link) ====== */
-  var FORM_URL = "";
+  var FORM_URL = "https://forms.gle/zVQ3NzzqSBp7SD6M9";
   /* ================================================================================== */
   var BOOK_HREF = FORM_URL || ("https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent("Hi Sushma! I'd like to book a free CraftyLab trial.\n\nChild's age:\nColony / area:\nPreferred days & time:"));
-  document.querySelectorAll('[data-form]').forEach(function(a){ a.href = BOOK_HREF; if(!FORM_URL) a.removeAttribute('target'); });
+  document.querySelectorAll('[data-form]').forEach(function(a){ a.href = BOOK_HREF; if(FORM_URL){ a.target='_blank'; a.rel='noopener'; } else { a.removeAttribute('target'); } });
 
   var ef = document.getElementById('enrolForm');
   if(ef) ef.addEventListener('submit', function(e){
