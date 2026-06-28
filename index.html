@@ -165,6 +165,22 @@
   .tool p{margin:0; font-size:13.5px; font-weight:600; opacity:.82}
   @media(max-width:620px){.tools{grid-template-columns:1fr}}
 
+  /* MARQUEE + INTERACTIVE */
+  .marquee{background:var(--ink); overflow:hidden; white-space:nowrap; padding:11px 0}
+  .marquee-track{display:inline-block; animation:marq 24s linear infinite}
+  .marquee-track:hover{animation-play-state:paused}
+  .marquee-track span{font-family:'Baloo 2',cursive; font-weight:800; font-size:15px; color:var(--cream); margin:0 14px}
+  .marquee-track span.dot{color:var(--mustard)}
+  @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .confetti-bit{position:fixed; z-index:9998; pointer-events:none; will-change:transform,opacity}
+  .hero .pill{cursor:pointer; transition:transform .15s ease}
+  body.fancy .hero .pill{cursor:none}
+  .hero .pill:hover{transform:translateY(-3px) rotate(-3deg)}
+  .achip{transition:transform .15s ease}
+  .achip:hover{transform:translateY(-4px) rotate(2deg)}
+  #thisWeek{transition:opacity .35s ease}
+  @media print{.marquee{display:none}}
+
   /* NAV */
   .nav{position:sticky; top:0; z-index:900; background:var(--cream); border-bottom:3px solid var(--ink)}
   .nav-in{max-width:1060px; margin:0 auto; padding:9px 18px; display:flex; align-items:center; justify-content:space-between; gap:12px}
@@ -284,6 +300,8 @@
     <div class="scrollcue pop d4">scroll down to peek inside <b>↓</b></div>
   </div>
 </section>
+
+<div class="marquee web-only" aria-hidden="true"><div class="marquee-track" id="marqT"></div></div>
 
 <!-- ============ MEET SUSHMA ============ -->
 <section class="band b-cream grid-bg reveal">
@@ -465,7 +483,7 @@
       </div>
       <div class="scbox thisweek">
         <h4>🎬 this week we're making…</h4>
-        <div class="big">[a clay charm keychain! 🪀]</div>
+        <div class="big" id="thisWeek">a clay charm keychain! 🪀</div>
         <p style="font-weight:600;margin:6px 0 0">Every week I share a quick sneak peek so you know exactly what's coming. (Sushma, just update this line each week!)</p>
       </div>
     </div>
@@ -577,6 +595,57 @@
   function show(i){var p=projects[i];pArt.innerHTML=p.svg;pT.textContent=p.t;pW.textContent=p.what;pL.innerHTML=p.learn.map(function(x){return '<span>'+x+'</span>'}).join('');Array.prototype.forEach.call(tabs.children,function(c,j){c.classList.toggle('on',j===i)})}
   projects.forEach(function(p,i){var b=document.createElement('div');b.className='ptab';b.textContent=p.tab;b.addEventListener('click',function(){show(i)});tabs.appendChild(b)});
   show(0);
+})();
+
+/* ===== extra interactivity ===== */
+(function(){
+  /* scrolling marquee */
+  var marq = document.getElementById('marqT');
+  if(marq){
+    var items=['✨ all materials included','🎨 ages 5 to 12','🆓 free first class','📵 screen-free fun','🧶 a new craft every week','👕 make your own tee'];
+    var html='';
+    for(var r=0;r<2;r++){ items.forEach(function(t){ html+='<span>'+t+'</span><span class="dot">•</span>'; }); }
+    marq.innerHTML=html;
+  }
+
+  /* click confetti */
+  var COLS=['#F5402C','#2657E8','#23A848','#FFC93C','#FF5BA0','#7B5BE0'];
+  function burst(x,y){
+    for(var i=0;i<26;i++){
+      var b=document.createElement('div'); b.className='confetti-bit';
+      var sz=6+Math.random()*9;
+      b.style.cssText='left:'+x+'px;top:'+y+'px;width:'+sz+'px;height:'+sz+'px;background:'+COLS[i%6]+';border-radius:'+(Math.random()<0.5?'50%':'2px')+';transition:transform 1s cubic-bezier(.2,.7,.3,1),opacity 1s ease;transform:translate(-50%,-50%)';
+      document.body.appendChild(b);
+      (function(el){
+        var a=Math.random()*6.283, d=70+Math.random()*150;
+        var dx=Math.cos(a)*d, dy=Math.sin(a)*d+Math.random()*140;
+        requestAnimationFrame(function(){ requestAnimationFrame(function(){
+          el.style.transform='translate('+dx+'px,'+dy+'px) rotate('+(Math.random()*720-360)+'deg)'; el.style.opacity='0';
+        }); });
+        setTimeout(function(){ el.remove(); },1150);
+      })(b);
+    }
+  }
+  document.addEventListener('click', function(e){
+    if(e.target.closest('.logo-badge, [data-form], .navbtn, .pill, .send')) burst(e.clientX, e.clientY);
+  });
+
+  /* hero tags scroll to the crafts list */
+  document.querySelectorAll('.hero .pill').forEach(function(p){
+    p.addEventListener('click', function(){ var t=document.getElementById('explore'); if(t) t.scrollIntoView({behavior:'smooth'}); });
+  });
+
+  /* auto-rotate "this week we're making" */
+  var tw=document.getElementById('thisWeek');
+  if(tw){
+    var weeks=['a clay charm keychain! 🪀','a cosmic whale painting 🐋','your own sticker sheet ⭐','a crochet flower 🌸','a tie-dye tote bag 👜','a pop-up greeting card 💌'];
+    var wi=0;
+    setInterval(function(){
+      wi=(wi+1)%weeks.length;
+      tw.style.opacity='0';
+      setTimeout(function(){ tw.textContent=weeks[wi]; tw.style.opacity='1'; },350);
+    },2800);
+  }
 })();
 </script>
 </body>
